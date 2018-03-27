@@ -77,11 +77,12 @@ public class ModuleBlockFood implements IClassTransformerModule
 
 	private void addOnBlockFoodEatenHook(ClassNode classNode, MethodNode method)
 	{
+		// XXX HastHax: Don't patch cake, so bukkit doesn't asplode. Unfortunately, this will likely cause desyncs with cake eating.
 		// default p_150036_5_.getFoodStats().addStats call replaced with:
 		/*
 		Hooks.onBlockFoodEaten(this, p_150036_1_, p_150036_5_);
 		*/
-		InsnList needle = new InsnList();
+		/*InsnList needle = new InsnList();
 		needle.add(new VarInsnNode(ALOAD, 5));
 		needle.add(new MethodInsnNode(INVOKEVIRTUAL, ObfHelper.getInternalClassName("net.minecraft.entity.player.EntityPlayer"), InsnComparator.WILDCARD, InsnComparator.WILDCARD, false));
 		needle.add(new InsnNode(ICONST_2));
@@ -95,7 +96,7 @@ public class ModuleBlockFood implements IClassTransformerModule
 		replacement.add(new MethodInsnNode(INVOKESTATIC, ASMConstants.HooksInternalClass, "onBlockFoodEaten", "(Lnet/minecraft/block/Block;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/EntityPlayer;)V", false));
 
 		if (ASMHelper.findAndReplace(method.instructions, needle, replacement) == null)
-			throw new RuntimeException("Could not replace FoodStats.addStats call in " + classNode.name + "." + method.name + "\n" + ASMHelper.getMethodAsString(method));
+			throw new RuntimeException("Could not replace FoodStats.addStats call in " + classNode.name + "." + method.name + "\n" + ASMHelper.getMethodAsString(method));*/
 	}
 
 	private void addAlwaysEdibleCheck(ClassNode classNode, MethodNode method)
